@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const ProductsRoute = require('./routes/products')
-const UsersRoute = require("./routes/users")
+const AuthsRoute = require("./routes/auths")
 const connection_string = 'mongodb+srv://admin:1111@cluster0.l0sk4je.mongodb.net/test'
 
 mongoose.connect(connection_string, {
@@ -35,4 +35,4 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.use("", ProductsRoute)
-app.use("", UsersRoute)
+app.use("", AuthsRoute)

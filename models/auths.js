@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const usersShema = new Schema(
+const AuthsShema = new Schema(
   {
     username: {
       type: String,
@@ -20,7 +20,7 @@ const usersShema = new Schema(
       require: true,
     },
     phone: {
-      type: Number,
+      type: String,
       require: true,
     },
     emaill: {
@@ -35,10 +35,14 @@ const usersShema = new Schema(
       type: String,
       require: true,
     },
+    isAdmin: {
+      type: Boolean,
+      require: true,
+    },
   },
 
   { timestamps: true }
 );
 
-const Products = mongoose.model("Users", usersShema);
-module.exports = Products;
+const Auths = mongoose.model("Auths", AuthsShema);
+module.exports = Auths;

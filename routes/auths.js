@@ -12,6 +12,10 @@ app.use(allowCrossDomain)
 
 
 
-route.post("/api/auths/register",authsValidation, AuthsController.addUser);
-route.get("/api/users/getAllUsers",AuthsController.getAllUsers);
+route.post("/api/auths/register",authsValidation, AuthsController.register);
+route.post("/api/auths/login",AuthsController.login);
+route.get("/api/auths/getAllUsers",AuthsController.getAllUsers);
+route.get("/api/auths/getUserById/:userId",AuthsController.getUserById);
+route.patch("/api/auths/editUser/:userId", AuthsController.editUser)
+route.delete("/api/auths/deleteUser/:userId", AuthsController.deleteUserById)
 module.exports = route;

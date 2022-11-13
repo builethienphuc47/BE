@@ -17,7 +17,7 @@ const createProduct = async (req, res, next) => {
     //   !productName ||
     //   !productBrand ||
     //   !type ||
-    //   !price ||s
+    //   !price ||
     //   !discount ||
     //   !quantity ||
     //   !image

@@ -22,10 +22,10 @@ const register = async (req, res, next) => {
     const exitingUsername = await Users.findOne({
       username: req.body.username,
     }).lean(true);
-
-    if (existingEmail || exitingUsername) {
+    
+    if (existingEmail && exitingUsername) {
       res.status(403);
-      return res.json(errorFunction(true, 403, "User Already Exists"));
+      return res.json(errorFunction(true, 406, "User Already Exists"));
     } else {
       const hashedPassword = await securePassword(req.body.password);
       const newUser = await Users.create({

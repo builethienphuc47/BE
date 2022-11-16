@@ -8,10 +8,9 @@ const addOrders = (req, res, next) => {
   try {
     const {
       userId,
-      customerName,
-      customerEmail,
-      customerPhone,
-      customerAdress,
+      username,
+      phone,
+      address,
       productId,
       productName,
       brand,
@@ -21,10 +20,9 @@ const addOrders = (req, res, next) => {
     } = req.body;
     if (
       !userId ||
-      !customerName ||
-      !customerEmail ||
-      !customerPhone ||
-      !customerAdress ||
+      !username ||
+      !phone ||
+      !address ||
       !productId ||
       !productName ||
       !brand ||

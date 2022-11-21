@@ -1,3 +1,4 @@
+const req = require("express/lib/request");
 const Orders = require("../models/orders");
 const errorFunction = require("../utils/errorFunction");
 
@@ -6,34 +7,34 @@ const errorFunction = require("../utils/errorFunction");
 //CREATE
 const addOrders = (req, res, next) => {
   try {
-    const {
-      userId,
-      customerName,
-      customerEmail,
-      customerPhone,
-      customerAdress,
-      productId,
-      productName,
-      brand,
-      price,
-      quantity,
-      type,
-    } = req.body;
-    if (
-      !userId ||
-      !customerName ||
-      !customerEmail ||
-      !customerPhone ||
-      !customerAdress ||
-      !productId ||
-      !productName ||
-      !brand ||
-      !price ||
-      !quantity ||
-      !type
-    ) {
-      res.json(errorFunction(true, 403, "Error Add Order"));
-    }
+    // const {
+    //   userId,
+    //   customerName,
+    //   customerPhone,
+    //   customerAddress,
+    //   productId,
+    //   productName,
+    //   productBrand,
+    //   price,
+    //   quantity,
+    //   type,
+    //   images,
+    // } = req.body;
+    // if (
+    //   !userId ||
+    //   !customerName ||
+    //   !customerPhone ||
+    //   !customerAddress ||
+    //   !productId ||
+    //   !productName ||
+    //   !productBrand ||
+    //   !price ||
+    //   !quantity ||
+    //   !type ||
+    //   !images
+    // ) {
+    //   return res.json(errorFunction(true, 403, "Error Add Order"));
+    // }
     let order = new Orders(req.body);
     order.save().then((respone) => {
       res.json({
@@ -53,6 +54,7 @@ const getAllOrders = async (req, res, next) => {
     const allOrders = await Orders.find();
     if (allOrders.length > 0) {
       res.status(200).json({
+        totalOrders: allOrders.length,
         orders: allOrders.reverse(),
       });
     } else {
@@ -62,6 +64,64 @@ const getAllOrders = async (req, res, next) => {
       // });
       res.json(errorFunction(true, 200, 'No result', []))
     }
+  } catch (error) {
+    res.json(errorFunction(true, 400, "Bad request"));
+  }
+};
+
+//get by userId
+
+const getOrderByUserId = async (req, res, next) => {
+  try {
+    // const userId = req.params.userId;
+    // console.log(userId)
+    // const filter = {
+    //   $and : [
+    //     {
+    //       userId: {
+    //         $regex: userId,
+    //         $option: "$i"
+    //       }
+    //     }
+    //   ]
+    // };
+
+    // const orders = await Orders.find()
+    // console.log("Orders:" ,orders)
+    // const order = await Orders.findById(req.params.userId)
+    // return  res.status(200).json({
+    //   total: order.length,
+    //   order: order.reverse()
+    // })
+    // Orders.findById(userId).then((response) => {
+    //   res.json({
+    //     response,
+    //   });
+    // });
+    const userId = req.params.userId;
+    const filter = {
+      $and: [
+        {
+          userId: {
+            $regex: userId,
+            $options: "$i",
+          },
+        },
+      ],
+    };
+    const orders = await Orders.find(filter)
+    return res.json({
+      orders
+    })
+
+    // if (order.length > 0){
+    //   res.status(200).json({
+    //     total: order.length,
+    //     order: order.reverse()
+    //   })
+    // } else {
+    //   res.json(errorFunction(true, 204, 'No result'))
+    // }
   } catch (error) {
     res.json(errorFunction(true, 400, "Bad request"));
   }
@@ -137,4 +197,4 @@ const deleteOrderById = async (req, res, next) => {
   }
 }
 
-module.exports = { addOrders, getAllOrders, getOrderById, editOrder, deleteOrderById };
+module.exports = { addOrders, getAllOrders, getOrderByUserId ,getOrderById, editOrder, deleteOrderById };

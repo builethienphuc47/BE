@@ -8,7 +8,7 @@ const OrderRoute = require("./routes/orders")
 // const connection_string = 'mongodb+srv://admin:1111@cluster0.l0sk4je.mongodb.net/test'
 
 const test = process.env.TEST
-
+// console.log(test)
 const connection_string = process.env.CONNECTION_STRING
 
 mongoose.connect(connection_string, {

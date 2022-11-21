@@ -8,17 +8,17 @@ const ordersShema = new Schema(
             require: true,
         },
 
-        username : {
+        customerName : {
             type: String,
             require: true,
         },
 
-        phone: {
+        customerPhone: {
             type: Number,
             require: true,
         },
 
-        address: {
+        customerAddress: {
             type: String,
             require: true,  
         },
@@ -53,6 +53,10 @@ const ordersShema = new Schema(
         },
         orderStatus: {
             type: Number,
+            require: true
+        },
+        images: {
+            type: Object,
             require: true
         }
     },

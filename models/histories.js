@@ -48,4 +48,4 @@ const historiesSchema = new Schema (
 );
 
 const Histories = mongoose.model("Histories", historiesSchema)
-module.exports = { Histories }
+module.exports = Histories 

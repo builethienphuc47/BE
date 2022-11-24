@@ -5,32 +5,9 @@ const ProductValidation = require("../helpers/validation");
 //CREATE - POST
 const createProduct = async (req, res, next) => {
   try {
-    // const {
-    //   productName,
-    //   productBrand,
-    //   type,
-    //   price,
-    //   discount,
-    //   quantity,
-    //   image,
-    // } = req.body;
-    // if (
-    //   !productName ||
-    //   !productBrand ||
-    //   !type ||
-    //   !price ||
-    //   !discount ||
-    //   !quantity ||
-    //   !image
-    // ) {
-    //   res.status(400).json({
-    //     message: "Some fields are not empty",
-    //   });
-    // }
     const validReq = await ProductValidation.addProductSchema.validateAsync(
       req.body
     );
-    // let product = new Products(req.body);
     let product = new Products(validReq);
     product.save().then((respone) => {
       res.json({
@@ -39,10 +16,6 @@ const createProduct = async (req, res, next) => {
     });
   } catch (error) {
     console.log("ERROR: ", error);
-    // res.status(400).json({
-    //   statusCode: 400,
-    //   message: "Bad request",
-    // })
     return res.status(400).json({
       statusCode: 400,
       message: "Bad request",

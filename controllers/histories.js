@@ -20,7 +20,7 @@ const createHistories = async (req, res, next) => {
         else {
             let newHistory = new Histories(req.body);
             newHistory.save().then((respone) => {
-                res.json(errorFunction(false, 200, "Created historie successfully"))
+                res.json(errorFunction(false, 200, "Created history successfully"))
             })
         }
 
@@ -31,7 +31,7 @@ const createHistories = async (req, res, next) => {
 
 // READ
 // get all 
-const getAllHistories = (req, res, next) => {
+const getAllHistories = async (req, res, next) => {
     try {
         const {
             pageSize = 12,

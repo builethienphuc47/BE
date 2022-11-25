@@ -31,7 +31,7 @@ const createCarts = async (req, res, next) => {
 
 // READ
 // get all 
-const getAllCarts = (req, res, next) => {
+const getAllCarts = async (req, res, next) => {
     try {
         const {
             pageSize = 12,
@@ -123,7 +123,7 @@ const getCartByUserId = async (req, res, next) => {
         });
       } else {
         res.status(204).json({
-          message: "This product id have not in the database",
+          message: "This cart id have not in the database",
           cart: {},
         });
       }

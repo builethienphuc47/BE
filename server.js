@@ -5,6 +5,9 @@ const mongoose = require('mongoose')
 const ProductsRoute = require('./routes/products')
 const AuthsRoute = require("./routes/auths")
 const OrderRoute = require("./routes/orders")
+const CartRoute = require("./routes/carts")
+const HistoriesRoute = require("./routes/histories")
+const CommentsRoute = require("./routes/comments")
 // const connection_string = 'mongodb+srv://admin:1111@cluster0.l0sk4je.mongodb.net/test'
 
 const test = process.env.TEST
@@ -43,3 +46,6 @@ app.use(bodyParser.json())
 app.use("", ProductsRoute)
 app.use("", AuthsRoute)
 app.use("", OrderRoute)
+app.use("", CartRoute)
+app.use("", HistoriesRoute)
+app.use("", CommentsRoute)

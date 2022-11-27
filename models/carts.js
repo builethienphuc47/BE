@@ -26,6 +26,11 @@ const cartsShema = new Schema (
             type: Number,
             require: true,
         },
+
+        type: {
+            type: String,
+            require: true
+        },
         
         quantity: {
             type: Number,
@@ -42,4 +47,4 @@ const cartsShema = new Schema (
 
 )
 const Carts = mongoose.model("Carts", cartsShema)
-module.exports = {Carts}
+module.exports = Carts

@@ -3,6 +3,11 @@ const Schema = mongoose.Schema;
 
 const historiesSchema = new Schema (
   {
+    userId: {
+      type: String,
+      require: true,
+    },
+
     productId: {
       type: String,
       require: true,
@@ -28,18 +33,8 @@ const historiesSchema = new Schema (
       require: true,
     },
 
-    orderStatus: {
-      type: String,
-      require: true,
-    },
-
     image: {
       type: Object,
-      require: true,
-    },
-
-    userId: {
-      type: String,
       require: true,
     },
   },

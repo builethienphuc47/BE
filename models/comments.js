@@ -11,6 +11,10 @@ const commentsSchema = new Schema (
             type: String,
             require: true
         },
+        productName: {
+            type: String,
+            require: true
+        },
         customerName: {
             type: String,
             require: true

@@ -1,7 +1,7 @@
 const Orders = require("../models/orders");
 const errorFunction = require("../utils/errorFunction");
-const Products = require("../models/products")
-const Auths = require("../models/auths")
+const Products = require("../models/products");
+const Auths = require("../models/auths");
 //CRUD
 
 const addOrders = async (req, res, next) => {
@@ -14,36 +14,36 @@ const addOrders = async (req, res, next) => {
   // else => SHOW MESSAGE
   try {
     const userId = await Auths.findById(req.body.userId);
-    const quantity = await Products(req.body.quantity);
+    const quantity = await Products.find(req.body.quantity);
     const product = await Products.findById(req.body.productId);
-    const requestProduct = { quantity: product.quantity - quantity};
-    if (!userId){
+    const requestProduct = { quantity: product.quantity - quantity };
+    if (!userId) {
       return res.json(
         errorFunction(true, 204, "This userId have not in the DB")
-      )
+      );
     }
-    if (!product){
+    if (!product) {
       return res.json(
         errorFunction(true, 204, "This productId have not in the DB")
-      )
+      );
     } else {
       // check quantity
-      if (quantity <= product.quantity){
+      if (quantity <= product.quantity) {
         //ADD ORDER
-        const newOrder = await Orders.create(req.body)
+        const newOrder = await Orders.create(req.body);
         if (newOrder) {
           Products.findByIdAndUpdate(req.body.productId, requestProduct).then(
             (data) => {
-              if(data){
+              if (data) {
                 res.status(201);
                 return res.json(
                   errorFunction(false, 201, "Order Created", newOrder)
-                )
+                );
               } else {
-                return res.json(errorFunction(true, 400, "Badddddd request"))
+                return res.json(errorFunction(true, 400, "Badddddd request"));
               }
             }
-          )
+          );
         } else {
           //SHOW MESSAGE
           return res.json(errorFunction(true, 403, "Error Creating Order"));
@@ -52,13 +52,14 @@ const addOrders = async (req, res, next) => {
         // SHOW MESSAGE
         return res.json(
           errorFunction(true, 206, "The quantity is more than in the stock")
-        )
+        );
       }
     }
   } catch (error) {
+    console.log(error)
     return res.json(errorFunction(true, 400, "Bad request"));
   }
-}
+};
 
 //READ
 // get all orders
@@ -71,7 +72,7 @@ const getAllOrders = async (req, res, next) => {
       customerPhone = "",
       productName = "",
       productBrand = "",
-      orderStatus,
+      // orderStatus,
       orderByColumn,
       orderByDirection = "desc",
     } = req.query;
@@ -102,15 +103,15 @@ const getAllOrders = async (req, res, next) => {
             $options: "$i",
           },
         },
-        {
-          orderStatus: {
-            $regex:orderStatus
-          }
-        }
+        // {
+        //   orderStatus: {
+        //     $regex: orderStatus,
+        //   },
+        // },
       ],
     };
 
-    const filterOrders = await Products.find(filter)
+    const filterOrders = await Orders.find(filter)
       .sort(`${orderByDirection === "asc" ? "" : "-"}${orderByColumn}`)
       .limit(pageSize * 1)
       .skip((pageNumber - 1) * pageSize);
@@ -137,6 +138,7 @@ const getAllOrders = async (req, res, next) => {
       res.json(errorFunction(true, 200, "No result", []));
     }
   } catch (error) {
+    console.log(error)
     res.json(errorFunction(true, 400, "Bad request"));
   }
 };
@@ -172,17 +174,17 @@ const getOrderById = async (req, res, next) => {
   try {
     const order = await Orders.findById(orderId);
     if (order) {
-      res.status(200).json({
+      return res.status(200).json({
         order,
       });
     } else {
-      res.status(204).json({
+      return res.status(204).json({
         message: "This product id have not in the database",
         order: {},
       });
     }
   } catch (error) {
-    res.json(errorFunction(true, 400, "Bad request"));
+    return res.json(errorFunction(true, 400, "Bad request"));
   }
 };
 

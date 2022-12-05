@@ -5,8 +5,8 @@ const errorFunction = require("../utils/errorFunction");
 
 const createComment = async (req, res, next) => {
   try {
-    const user = await Auths.findById(req.body);
-    const product = await Products.findById(req.body);
+    const user = await Auths.findById(req.body.userId);
+    const product = await Products.findById(req.body.productId);
 
     if (!user) {
       res.json(errorFunction(true, 204, "The userId is not valid"));
@@ -16,72 +16,75 @@ const createComment = async (req, res, next) => {
       res.json(errorFunction(true, 204, "The productId is not valid"));
     } else {
       let comment = new Comments(res.body);
-      comment.save()
+      comment
+        .save()
         .then(
           res.json(errorFunction(false, 204, "Created comment successfully"))
         );
     }
   } catch (error) {
-      res.json(errorFunction(true, 400, "Bad request"))
+    res.json(errorFunction(true, 400, "Bad request"));
   }
 };
 
 const getAllComments = async (req, res, next) => {
   try {
-      const {
-          pageSize = 12,
-          pageNumber = 1,
-          productName = "",
-          customerName = "",
-          commentByColumn,
-          commentByDirection = "desc",
-      } = req.query;
+    const {
+      pageSize = 12,
+      pageNumber = 1,
+      productName = "",
+      customerName = "",
+      commentByColumn,
+      commentByDirection = "desc",
+    } = req.query;
 
-      const filter = {
-          $and: [
-              {
-                  productName: {
-                      $regex: productName,
-                      $options: "$i",
-                  },
-              },
-              {
-                  customerName: {
-                      $regex: customerName,
-                      $options: "$i",
-                  },
-              },
-          ]
-      }
+    const filter = {
+      $and: [
+        {
+          productName: {
+            $regex: productName,
+            $options: "$i",
+          },
+        },
+        {
+          customerName: {
+            $regex: customerName,
+            $options: "$i",
+          },
+        },
+      ],
+    };
 
-      const filterComments = await comments.find(filter)
-          .sort(`${commentByDirection === "asc" ? "" : "-"}`)
-          .limit((pageSize * 1))
-          .skip((pageNumber - 1) * pageSize);
+    const filterComments = await Comments.find(filter)
+      .sort(`${commentByDirection === "asc" ? "" : "-"}`)
+      .limit(pageSize * 1)
+      .skip((pageNumber - 1) * pageSize);
 
+    const allComments = await Comments.find(filter);
 
-      const allComments = await Comments.find(filter);
+    let totalPage = 0;
+    if (allComments.length % pageSize === 0) {
+      totalPage = allComments.length / pageSize;
+    } else {
+      totalPage = parseInt(allComments.length / pageSize) + 1;
+    }
 
-      let totalComments = 0;
-      if (allComments.length % pageSize === 0) {
-          totalPage = allComments.length / pageSize;
-      } else {
-          totalPage = parseInt(allComments.length / pageSize) + 1;
-      }
-
-      if (allComments.length > 0) {
-          res.status(200).json({
-              totalPage: totalPage,
-              totalComments: allComments.length,
-              comments: commentByDirection && commentByColumn ? filterComments : filterComments.reverse(),
-          })
-      } else {
-          res.json(errorFunction(true, 200, "No result", []))
-      }
+    if (allComments.length > 0) {
+      res.status(200).json({
+        totalPage: totalPage,
+        totalComments: allComments.length,
+        comments:
+          commentByDirection && commentByColumn
+            ? filterComments
+            : filterComments.reverse(),
+      });
+    } else {
+      res.json(errorFunction(true, 200, "No result", []));
+    }
   } catch (error) {
-      res.json(errorFunction(true, 400, "Bad request"))
+    res.json(errorFunction(true, 400, "Bad request"));
   }
-}
+};
 //get by userId
 
 const getCommentByUserId = async (req, res, next) => {
@@ -178,6 +181,11 @@ const deleteCommentById = async (req, res, next) => {
   }
 };
 
-
-
-module.exports = {createComment, getAllComments, getCommentById, getCommentByUserId, editComment, deleteCommentById}
+module.exports = {
+  createComment,
+  getAllComments,
+  getCommentById,
+  getCommentByUserId,
+  editComment,
+  deleteCommentById,
+};

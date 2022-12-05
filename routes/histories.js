@@ -10,11 +10,11 @@ const historyController = require('../controllers/histories');
 const { historiesValidation } = require('../helpers/historiesValidation');
 app.use(allowCrossDomain)
 
-route.post("/api/histories/addhistory",historiesValidation ,historyController.createHistories)
-route.get("/api/histories/getAllhistories", historyController.getAllHistories)
-route.get("/api/histories/gethistoryByUserId/:userId", historyController.getHistoriesByUserId)
-route.get("/api/histories/gethistoryById/:historyId", historyController.getHistoryById)
-route.patch("/api/histories/edithistoryById/:historyId", historyController.editHistory)
-route.delete("/api/histories/deletehistoryById/:historyId", historyController.deleteHistoryById)
+route.post("/api/histories/addHistory",historiesValidation ,historyController.createHistories)
+route.get("/api/histories/getAllHistories", historyController.getAllHistories)
+route.get("/api/histories/getHistoryByUserId/:userId", historyController.getHistoriesByUserId)
+route.get("/api/histories/getHistoryById/:historyId", historyController.getHistoryById)
+route.patch("/api/histories/editHistoryById/:historyId", historyController.editHistory)
+route.delete("/api/histories/deleteHistoryById/:historyId", historyController.deleteHistoryById)
 
 module.exports = route

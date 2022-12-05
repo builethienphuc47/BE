@@ -3,8 +3,9 @@ const errorFunction = require("../utils/errorFunction");
 
 const addCommentsSchema = Joi.object({
     userId: Joi.string().max(100).required(), 
-    productId: Joi.string().max(100).required(),
     customerName: Joi.string().min(5).max(100).required(),
+    productId: Joi.string().max(100).required(),
+    productName: Joi.string().min(5).max(100).required(),
     comment: Joi.string().min(1).required(),
     rate: Joi.string().max(100).required(),
 });

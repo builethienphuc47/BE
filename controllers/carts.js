@@ -67,7 +67,7 @@ const getAllCarts = async (req, res, next) => {
 
         const allCarts = await Carts.find(filter);
 
-        let totalCarts = 0;
+        let totalPage = 0;
         if (allCarts.length % pageSize === 0) {
             totalPage = allCarts.length / pageSize;
         } else {
@@ -84,6 +84,7 @@ const getAllCarts = async (req, res, next) => {
             res.json(errorFunction(true, 200, "No result", []))
         }
     } catch (error) {
+        console.log(error)
         res.json(errorFunction(true, 400, "Bad request"))
     }
 }

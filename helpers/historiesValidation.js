@@ -8,7 +8,6 @@ const addHistoriesSchema = Joi.object({
   productBrand: Joi.string().max(100).required(),
   price: Joi.number().required(),
   quantity: Joi.number().required(),
-  historieStatus: Joi.number().required(),
   images: Joi.array().items(Joi.string().required()),
 });
 

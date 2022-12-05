@@ -14,7 +14,7 @@ const ordersShema = new Schema(
         },
 
         customerPhone: {
-            type: Number,
+            type: String,
             require: true,
         },
 

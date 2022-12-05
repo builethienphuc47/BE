@@ -79,17 +79,11 @@ const getAllProducts = async (req, res, next) => {
             : filterProducts.reverse(),
       });
     } else {
-      res.status(200).json({
-        message: "No results",
-        product: [],
-      });
+      res.json(errorFunction(true, 200, "No result", []))
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({
-      statusCode: 400,
-      message: "Bad request",
-    });
+    res.json(errorFunction(true, 400, "Bad request"));
   }
 };
 

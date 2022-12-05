@@ -4,21 +4,6 @@ const Products = require("../models/products")
 const Auths = require("../models/auths")
 //CRUD
 
-//CREATE
-// const addOrders = (req, res, next) => {
-//   try {
-//     let order = new Orders(req.body);
-//     order.save().then((respone) => {
-//       res.json({
-//         order,
-//         message: "Add order successfully !!!",
-//       });
-//     });
-//   } catch (error) {
-//     res.json(errorFunction(true, 400, "Bad request"));
-//   }
-// };
-
 const addOrders = async (req, res, next) => {
   // get userId from body request
   // get user by userId and check in DB
@@ -55,7 +40,7 @@ const addOrders = async (req, res, next) => {
                   errorFunction(false, 201, "Order Created", newOrder)
                 )
               } else {
-                return res.json(errorFunction(true, 400, "Bad request"))
+                return res.json(errorFunction(true, 400, "Badddddd request"))
               }
             }
           )
